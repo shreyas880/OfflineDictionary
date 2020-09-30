@@ -10,9 +10,8 @@ export default class App extends React.Component {
       text: '',
       definition:'',
       lexicalCategory:'',
-      isDefinitionDefined:'',
-      isLexicalCategoryDefined:'',
-      history:[]
+      history:[],
+      isHistoryButtonPressed:''
     };
   }
 
@@ -24,51 +23,96 @@ export default class App extends React.Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Header backgroundColor={'#9c8210'} centerComponent={{text: 'Monkey-Chunkey App',style: { color: '#fff', fontSize: 20 }}}/>
-        <Text style={[styles.buttonText,{textAlign:'center'}]}>Search</Text>
-        <TextInput
-          style={styles.inputBox}
-          onChangeText={text => {
-            this.setState({ text: text });
-          }}
-          value={this.state.text}
-        />
-        <TouchableOpacity
-          style={styles.goButton}
-          onPress={() => {
-            this.getCategories(this.state.text);
-            this.state.history.push(this.state.text)
-          }}>
+    if(this.state.isHistoryButtonPressed === 'true'){
+      return(
+        <View style={styles.container} >
+          <Header backgroundColor={'#9c8210'} centerComponent={{text: 'Monkey-Chunkey App',style: { color: '#fff', fontSize: 20 }}}/>
           <Text style={[styles.buttonText,{textAlign:'center'}]}>Search</Text>
-        </TouchableOpacity>
-        <Text style={styles.Text}>The word that you entered:{this.state.text}</Text>
-        <Text style={styles.Text}>Definition:{this.state.definition}</Text>
-        <Text style={styles.Text}>LexicalCategory:{this.state.lexicalCategory}</Text>
-        {this.state.history.map((word) => (
-          <TouchableOpacity style={{
-            marginLeft:65,
-            width:150,
-            height:50,
-            justifyContent:'center',
-            alignItems:'center',
-            borderRadius:50,
-            borderWidth:1,
-            borderColor:'black',
-            marginTop:25,
-            backgroundColor:'blue'}}
+          <TextInput
+            style={styles.inputBox}
+            onChangeText={text => {
+              this.setState({ text: text });
+            }}
+            value={this.state.text}/>
+          <TouchableOpacity
+            style={styles.goButton}
             onPress={() => {
-              this.setState({
-                text:word
-              })
-              this.getCategories(word)
+              this.getCategories(this.state.text);
+              this.state.history.push(this.state.text)
             }}>
-              <Text style={{color:'white',fontWeight:'bold',fontSize:22}}>{word}</Text>
-            </TouchableOpacity>
-        ))}
-      </View>
-    );
+            <Text style={[styles.buttonText,{textAlign:'center'}]}>Search</Text>
+          </TouchableOpacity>
+          <Text style={styles.Text}>The word that you entered:{this.state.text}</Text>
+          <Text style={styles.Text}>Definition:{this.state.definition}</Text>
+          <Text style={styles.Text}>Lexical category:{this.state.lexicalCategory}</Text>
+          <TouchableOpacity
+            style={styles.goButton}
+            onPress={() => {
+              console.log(this.state.history);
+              this.setState({
+                isHistoryButtonPressed:'true'
+              })}}>
+            <Text style={[styles.buttonText,{textAlign:'center'}]}>History</Text>
+          </TouchableOpacity>
+          {this.state.history.map((word) => (
+            <TouchableOpacity style={{
+              marginLeft:65,
+              width:150,
+              height:50,
+              justifyContent:'center',
+              alignItems:'center',
+              borderRadius:50,
+              borderWidth:1,
+              borderColor:'black',
+              marginTop:25,
+              backgroundColor:'blue'}}
+              onPress={() => {
+                this.setState({
+                  text:word
+                })
+                this.getCategories(word)
+              }}>
+                <Text style={{color:'white',fontWeight:'bold',fontSize:22}}>{word}</Text>
+              </TouchableOpacity>
+          ))}
+        </View>
+      );
+    }else{
+      return (
+        <View style={styles.container}>
+          <Header backgroundColor={'#9c8210'} centerComponent={{text: 'Monkey-Chunkey App',style: { color: '#fff', fontSize: 20 }}}/>
+          <Text style={[styles.buttonText,{textAlign:'center'}]}>Search</Text>
+          <TextInput
+            style={styles.inputBox}
+            onChangeText={text => {
+              this.setState({ text: text });
+            }}
+            value={this.state.text}/>
+          <TouchableOpacity
+            style={styles.goButton}
+            onPress={() => {
+              this.getCategories(this.state.text);
+              this.state.history.push(this.state.text)
+            }}>
+            <Text style={[styles.buttonText,{textAlign:'center'}]}>Search</Text>
+          </TouchableOpacity>
+          <Text style={styles.Text}>The word that you entered:{this.state.text}</Text>
+          <Text style={styles.Text}>Definition:{this.state.definition}</Text>
+          <Text style={styles.Text}>Lexical category:{this.state.lexicalCategory}</Text>
+          <TouchableOpacity
+            style={styles.goButton}
+            onPress={() => {
+              console.log(this.state.history);
+              this.setState({
+                isHistoryButtonPressed:'true'
+              })}}>
+            <Text style={[styles.buttonText,{textAlign:'center'}]}>History</Text>
+          </TouchableOpacity>
+        </View>
+      );      
+    }
+  
+
   }
 }
 
